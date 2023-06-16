@@ -2,6 +2,9 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { galleryItems } from './gallery-items.js';
 
+import { galleryItems } from './gallery-items.js';
+
+console.log(galleryItems);
 const ulEl = document.querySelector(".gallery");
 function createGalleryMarkUp(items){
    return items.map((item)=>
@@ -11,22 +14,15 @@ function createGalleryMarkUp(items){
    <img
    class="gallery__image" 
    src="${item.preview}"
-   data-source="${item.original}"
-   alt="${item.description}"/></a></li>`).join("");
+   alt="${item.description}"/></a></li>`).join(" ");
 }
 const addGalleryMarkUp = createGalleryMarkUp(galleryItems);
 ulEl.innerHTML = addGalleryMarkUp;
 
-const lightbox = new SimpleLightbox('.gallery a');
-
-ulEl.addEventListener("click", event => {
-    event.preventDefault();
-    if(event.target.nodeName !== "IMG"){
-        return;
-    }
-});
-document.addEventListener('keydown', (event) => {
-   if (event.key === 'Escape' && lightbox.isOpen()) {
-       lightbox.close();
-   }
-});
+ let lightbox = new SimpleLightbox('.gallery a', { 
+        captionDelay:250,
+        captionsData: "alt",
+        enableKeyboard: true,
+        close: true,
+    });
+  console.log(lightbox)
