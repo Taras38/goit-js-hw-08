@@ -1,9 +1,7 @@
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
-// Add imports above this line
-import { galleryItems } from './gallery-items';
-// Change code below this line
-console.log(galleryItems);
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+import { galleryItems } from './gallery-items.js';
+
 const ulEl = document.querySelector(".gallery");
 function createGalleryMarkUp(items){
    return items.map((item)=>
@@ -18,29 +16,17 @@ function createGalleryMarkUp(items){
 }
 const addGalleryMarkUp = createGalleryMarkUp(galleryItems);
 ulEl.innerHTML = addGalleryMarkUp;
-let lightbox = new SimpleLightbox('.gallery a', { 
-   captionDelay:250,
-   captionsData: "alt",
-   enableKeyboard: true,
-   close: true,
+
+const lightbox = new SimpleLightbox('.gallery a');
+
+ulEl.addEventListener("click", event => {
+    event.preventDefault();
+    if(event.target.nodeName !== "IMG"){
+        return;
+    }
 });
-ulEl.addEventListener("click",onGalleryItemClick);
-function onGalleryItemClick(event){
-   event.preventDefault();
-   if(event.target.nodeName !== "IMG"){
-       return;
+document.addEventListener('keydown', (event) => {
+   if (event.key === 'Escape' && lightbox.isOpen()) {
+       lightbox.close();
    }
-    const instance = basicLightbox.create(`<img src=
-     "${event.target.dataset.source}"
-      width="800" height ="600"/>`,
-    { handler :null,
-onShow(instance){
-    this.handler=closeModal.bind(instance)
- document.addEventListener(keydown,this.handler)
- },
-onClose(){
-document.removeEventListener(keydown,this.handler)
-},
 });
-instance.show();
-};
